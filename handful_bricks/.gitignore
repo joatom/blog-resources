@@ -1,0 +1,5 @@
+*.zip
+lego-database
+.ipynb_checkpoints
+sql2pandas_config.py
+__pycache__
