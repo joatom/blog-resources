@@ -1,2 +1,1 @@
-# path to google credentials
-GOOGLE_APPLICATION_CREDENTIALS = "/xxxx/xxxx/XXXXX.json"
+GOOGLE_APPLICATION_CREDENTIALS = "PATH/TO/SECRET.json"
