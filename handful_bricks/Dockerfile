@@ -18,7 +18,7 @@ RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc
 
 # create conda env
 RUN conda update -n base -c defaults conda
-RUN conda create -y -n handful_bricks -c python=3.6
+RUN conda create -y -n handful_bricks python=3.6
 ENV PATH /opt/conda/envs/handful_bricks/bin:$PATH
 RUN conda init bash
 SHELL ["bash", "-lc"]
