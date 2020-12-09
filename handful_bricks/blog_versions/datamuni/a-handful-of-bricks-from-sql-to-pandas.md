@@ -1,4 +1,6 @@
-# Table of contents
+# A handful of bricks - from SQL to Pandas
+
+## Table of contents
 
 * [SQL and Pandas](#sql_and_pandas)
 * [Missing bricks](#missing_bricks)
@@ -12,7 +14,7 @@
 * [References](#ref)
 
 <a id="sql_and_pandas"></a>
-# SQL ~~vs.~~ and Pandas
+## SQL ~~vs.~~ and Pandas
 
 I love SQL. It's been around for decades to arrange and analyse data. Data is kept in tables which are stored in a relational structure. Consistancy and data integraty is kept in mind when designing a relational data model. However, when it comes to machine learning other data structures such as matrices and tensors become important to feat the underlying algorithms and make data processing more efficient. That's where Pandas steps in. From a SQL developer perspective it is the library to close the gap between your data storage and the ml frameworks.
 
@@ -22,15 +24,15 @@ The coding examples are built upon a [Lego Dataset](https://www.kaggle.com/rtatm
 > To follow along I've provided a [notebook](https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas) on kaggle, where you can play with the blog examples either using SQLite or Bigquery. You can also checkout a [docker container](https://github.com/joatom/blog-resources/tree/main/handful_bricks) to play on your home machine.
 
 <a id="missing_bricks"></a>
-# Missing bricks
+## Missing bricks
 
 First listen to this imaginary dialogue that guides us throug the coding:
 
-<span style="color:green">*I miss all red bricks of the Lego Pizzeria. I definetly need a new one.*</span>
+:hatched_chick: <span style="color:green">*I miss all red bricks of the Lego Pizzeria. I definetly need a new one.*</span>
 
-<span style="color:blue">*Don't worry. We can try to solve this with data. That will be fun. :-)*</span>
+:penguin: <span style="color:blue">*Don't worry. We can try to solve this with data. That will be fun. :-)*</span>
 
-<span style="color:green">*(!@#%&) You're kidding, right?*</span>
+:hatched_chick: <span style="color:green">*(!@#%&) You're kidding, right?*</span>
 
 Now that we have a mission we are ready to code and figuere out how to deal with missing bricks.
 First we inspect the tables. They are organized as shown in the relational diagram ([Fig. 1](#Fig_1)).
@@ -38,7 +40,7 @@ First we inspect the tables. They are organized as shown in the relational diagr
 <a id="Fig_1"></a>
 ![datamodel](./assets/schema.png)
 
-Fig. 1: Data model ([source](https://www.kaggle.com/rtatman/lego-database))
+Fig. 1: Data model ([source: Lego dataset](https://www.kaggle.com/rtatman/lego-database))
 
 There are colors, parts, sets and inventories. We should start by searching for the *Pizzeria* in the `sets` table using the set number (*41311*).
 
@@ -48,7 +50,7 @@ There are colors, parts, sets and inventories. We should start by searching for 
 Fig. 2: Lego Box with set number
 
 <a id = "simple_filter"></a>
-# A simple Filter *(The behaviour of brackets.)*
+## A simple Filter *(The behaviour of brackets.)*
 A simple `like`-filter on the `sets` table will return the set info.
 
 ```sql
@@ -68,20 +70,6 @@ df_sets.query("set_num.str.contains('41311')", engine='python')
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -104,7 +92,6 @@ df_sets.query("set_num.str.contains('41311')", engine='python')
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -130,20 +117,7 @@ df_sets[df_sets['set_num'] == '41311-1']
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -166,7 +140,6 @@ df_sets[df_sets['set_num'] == '41311-1']
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -251,20 +224,6 @@ df_sets[df_sets['set_num'] == '41311-1'][['name','year']]
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -281,12 +240,11 @@ df_sets[df_sets['set_num'] == '41311-1'][['name','year']]
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
 <a id = "indexing"></a>
-# Indexing *(What actually is an index?)*
+## Indexing *(What actually is an index?)*
 Another way to access a row in Pandas is by using the row index. With the `loc` function (and brackets) we select the *Pizzeria* and another arbitrary set. We use the row numbers to filter the rows.
 
 
@@ -297,20 +255,6 @@ df_sets.loc[[236, 3582]]
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -341,7 +285,6 @@ df_sets.loc[[236, 3582]]
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -367,20 +310,6 @@ df_sets.drop(['year'], axis = 1).head(5)
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -429,7 +358,6 @@ df_sets.drop(['year'], axis = 1).head(5)
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -461,20 +389,6 @@ df_sets.set_index('set_num').head()
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -530,7 +444,6 @@ df_sets.set_index('set_num').head()
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -544,20 +457,6 @@ df_sets.set_index(['year', 'set_num']).sort_index(axis=0).head() # axis = 0 => r
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -609,7 +508,6 @@ df_sets.set_index(['year', 'set_num']).sort_index(axis=0).head() # axis = 0 => r
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -623,20 +521,6 @@ df_sets.loc[[236, 3582]].reset_index(drop = True) # set drop = False to keep the
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -667,7 +551,6 @@ df_sets.loc[[236, 3582]].reset_index(drop = True) # set drop = False to keep the
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -678,11 +561,11 @@ Now we get a sence what is meant by an index in Pandas in contrast to SQL.
 An **index in Pandas** can rather be seen as a **dimensional access** to the data values. They can be distingueshed between row and column indices.
 
 <a id = "joins"></a>
-# Joins *(Why merge doesn't mean upsert.)*
+## Joins *(Why merge doesn't mean upsert.)*
 
-<span style="color:green">*What are we gonna do now about my missing parts?*</span>
+:hatched_chick: <span style="color:green">*What are we gonna do now about my missing parts?*</span>
 
-<span style="color:blue">*We don't have all the information we need, yet. We need to join the other tables.*</span>
+:penguin: <span style="color:blue">*We don't have all the information we need, yet. We need to join the other tables.*</span>
 
 Though there is a function called `join` to join DataFrames I always use the `merge` function. This can be a bit confusing, when you are used to Oracle where *merge* means upsert/updelete rather then combining two tables.
 
@@ -782,20 +665,6 @@ df_sets.merge(df_inventories, how = 'inner', left_on = 'set_num', right_on = 'se
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -862,7 +731,6 @@ df_sets.merge(df_inventories, how = 'inner', left_on = 'set_num', right_on = 'se
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -1230,20 +1098,6 @@ df_test_from_df
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1382,7 +1236,6 @@ df_test_from_df
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -1464,20 +1317,6 @@ df_missing_parts
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1520,16 +1359,15 @@ df_missing_parts
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
-<span style="color:blue">*There we go, we are missing one 2x2 brick and tw0 2x2 double convex.*</span>
+:penguin: <span style="color:blue">*There we go, we are missing one 2x2 brick and tw0 2x2 double convex.*</span>
 
-<span style="color:green">*Yup, that's the roof of the fireplace. I knew that before.*</span>
+:hatched_chick: <span style="color:green">*Yup, that's the roof of the fireplace. I knew that before.*</span>
 
 <a id ="agg"></a>
-# Conditional Joins and Aggregation *(Almost done!)*
+## Conditional Joins and Aggregation *(Almost done!)*
 
 Next we search for sets that contain the missing parts. The quantity of the parts in the found sets must be greater or equal the quantity of the missing parts.
 
@@ -1582,7 +1420,7 @@ LIMIT 16
 ```
 
 
-## Conditional Join
+### Conditional Join
 
 There is no intuitive way to do a conditional join on DataFrames. The easiest I've [seen](https://stackoverflow.com/questions/23508351/how-to-do-workaround-a-conditional-join-in-python-pandas) so far is a two step solution.
 As substitution for the SQL `WITH`-clause we can reuse `df_missing_parts`.
@@ -1600,7 +1438,7 @@ df_sets_with_missing_parts = df_sets_with_missing_parts[['set_name_missing'] + [
 df_sets_with_missing_parts.columns = ['searching_for_set'] + cols
 ```
 
-## Aggregation
+### Aggregation
 
 In the next step the aggregation of the analytic function 
 ```sql
@@ -1634,20 +1472,6 @@ df_sets_with_missing_parts.groupby(['set_num']).count()  .sort_values('set_num',
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1746,7 +1570,6 @@ df_sets_with_missing_parts.groupby(['set_num']).count()  .sort_values('set_num',
   </tbody>
 </table>
 <p>468 rows × 4 columns</p>
-</div>
 
 
 
@@ -1763,20 +1586,6 @@ df_sets_with_missing_parts.groupby(['set_num'], as_index = False) \
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1856,7 +1665,6 @@ df_sets_with_missing_parts.groupby(['set_num'], as_index = False) \
   </tbody>
 </table>
 <p>468 rows × 3 columns</p>
-</div>
 
 
 
@@ -1879,20 +1687,6 @@ df_sets_with_missing_parts.head(5)
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1953,7 +1747,6 @@ df_sets_with_missing_parts.head(5)
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -1982,20 +1775,6 @@ df_sets_with_missing_parts
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -2155,7 +1934,6 @@ df_sets_with_missing_parts
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -2170,12 +1948,12 @@ pd._testing.assert_frame_equal(sets_with_missing_parts, df_sets_with_missing_par
 
 The results are matching!
 
-<span style="color:blue">We got it. We can buy the small Fire Engine to fix the roof of the fireplace. Now need for a new Pizzeria. :-)</span>
+:penguin: <span style="color:blue">We got it. We can buy the small Fire Engine to fix the roof of the fireplace. Now need for a new Pizzeria. :-)</span>
 
-<span style="color:green">(#@§?!*#) Are you sure your data is usefull for anything?</span>
+:hatched_chick: <span style="color:green">(#@§?!*#) Are you sure your data is usefull for anything?</span>
 
 <a id = "rec"></a>
-# Recursion *(Lost in trees?)*
+## Recursion *(Lost in trees?)*
 We solved the red brick problem. But since we have the data already open, let's have a closer look at the *Fire Engine*, set number *336-1*.
 ```sql
 SELECT s.name AS set_name,
@@ -2321,20 +2099,6 @@ fire_engine_info
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -2373,7 +2137,6 @@ fire_engine_info
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -2398,20 +2161,6 @@ fire_engine_info.apply(lambda x: cat_sorted(x, fire_engine_info, 'name', 'level'
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -2434,7 +2183,6 @@ fire_engine_info.apply(lambda x: cat_sorted(x, fire_engine_info, 'name', 'level'
     </tr>
   </tbody>
 </table>
-</div>
 
 
 
@@ -2459,19 +2207,19 @@ fire_engine_info.rolling(10,min_periods=1)['level'].apply(lambda x: sum(10**x), 
 Now, we not only understand the numbers on the lego package but also have a better understandig of Pandas.
 
 <a id="sum"></a>
-# Summary *(Got it!)*
+## Summary *(Got it!)*
 
 SQL stays my favourite language to access structured data arranged over many tables. Pandas shines when data already is gathered together and easily accessable (e.g. as csv file).
 There are alternatives to Pandas to build ml pipelines, such as [Dask](https://docs.dask.org/en/latest/) or [CUDF](https://docs.rapids.ai/api/cudf/stable/). But learning Pandas is a good foundation to learn more of them.
 
 <a id = "res"></a>
-# Resources 
+## Resources 
 To play with the examples:
 - Kaggle notebook: https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas
 - Docker container: https://github.com/joatom/blog-resources/tree/main/handful_bricks
 
 <a id = "ref"></a>
-# References
+## References
 - The Lego dataset: https://www.kaggle.com/rtatman/lego-database
 - Loading datasets from kaggle: https://towardsdatascience.com/how-to-use-kaggle-datasets-in-google-colab-bca5e452a676
 - Jupyter sql magic: https://towardsdatascience.com/jupyter-magics-with-sql-921370099589
