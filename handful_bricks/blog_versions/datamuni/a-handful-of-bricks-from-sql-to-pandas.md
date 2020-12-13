@@ -1,15 +1,13 @@
 # A handful of bricks - from SQL to Pandas
 
-## Table of contents
-
 ## SQL ~~vs.~~ and Pandas
 
 I love SQL. It's been around for decades to arrange and analyse data. Data is kept in tables which are stored in a relational structure. Consistancy and data integraty is kept in mind when designing a relational data model. However, when it comes to machine learning other data structures such as matrices and tensors become important to feat the underlying algorithms and make data processing more efficient. That's where Pandas steps in. From a SQL developer perspective it is the library to close the gap between your data storage and the ml frameworks.
 
-This blog post shows how to translate some common and some advanced techniques from SQL to pandas step-by-step. I didn't just want to write a plain cheat sheet (actually Pandas has a good one to get started: [Comparison SQL](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html) [Ref. 1]). Rather I want to unwind some concepts that might be helpful for a SQL developer who now and then deals with pandas.
+This blog post shows how to translate some common and some advanced techniques from SQL to Pandas step-by-step. I didn't just want to write a plain cheat sheet (actually Pandas has a good one to get started: [Comparison SQL](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html) (Ref. 1)). Rather I want to unwind some concepts that might be helpful for a SQL developer who now and then deals with Pandas.
 
-The coding examples are built upon a [Lego Dataset](https://www.kaggle.com/rtatman/lego-database) [Ref. 2], that contains a couple of tables with data about various lego sets. 
-> To follow along I've provided a [notebook](https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas) [Res. 1] on kaggle, where you can play with the blog examples either using SQLite or Bigquery. You can also checkout a [docker container](https://github.com/joatom/blog-resources/tree/main/handful_bricks) [Res. 2] to play on your home machine.
+The coding examples are built upon a [Lego Dataset](https://www.kaggle.com/rtatman/lego-database) (Ref. 2), that contains a couple of tables with data about various lego sets. 
+> To follow along I've provided a [notebook](https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas) (Res. 1) on kaggle, where you can play with the blog examples either using SQLite or Bigquery. You can also checkout a [docker container](https://github.com/joatom/blog-resources/tree/main/handful_bricks) (Res. 2) to play on your home machine.
 
 ## Missing bricks
 
@@ -22,11 +20,11 @@ First listen to this imaginary dialogue that guides us throug the coding:
 ![](assets/chick.png) *(!@#%&) You're kidding, right?*
 
 Now that we have a mission we are ready to code and figuere out how to deal with missing bricks.
-First we inspect the tables. They are organized as shown in the relational diagram (Fig. 1.
+First we inspect the tables. They are organized as shown in the relational diagram (Fig. 1).
 
 ![](assets/schema.png)
 
-Fig. 1: Data model ([source: Lego dataset](https://www.kaggle.com/rtatman/lego-database) [Ref. 2])
+Fig. 1: Data model ([source: Lego dataset](https://www.kaggle.com/rtatman/lego-database) (Ref. 2))
 
 There are colors, parts, sets and inventories. We should start by searching for the *Pizzeria* in the `sets` table using the set number (*41311*).
 
@@ -94,11 +92,11 @@ There is a lot going on in this expression.
 
 Let's take it apart.
 
-`df_sets['set_num']` returns a single column (a *Pandas.Series* object). A Pandas Dataframe is basically a collection of Series. Additionaly there is a row index (often just called *index*) and a column index (*columnnames*). Think of a column store database.
+`df_sets['set_num']` returns a single column (a *Pandas.Series* object). A Pandas DataFrame is basically a collection of Series. Additionaly there is a row index (often just called *index*) and a column index (*columnnames*). Think of a column store database.
 
 ![](assets/df.png)
 
-Fig. 3: Elements of a Dataframe
+Fig. 3: Elements of a DataFrame
 
 Applying a boolean condition (`== '41311-1'`) to a Series of the DataFrame (`df_sets['set_num']`) will result in a boolean collection of the size of the column.
 
@@ -447,7 +445,7 @@ SELECT s.set_num,
 ```
 
 
-Now we translate the view to pandas. We see how the structure relates to sql. The parameter `how` defines the type of join (here: `inner`), `on` represents the `USING` clause whereas `left_on` and `right_on` stand for the SQL `ON` condition.
+Now we translate the view to Pandas. We see how the structure relates to sql. The parameter `how` defines the type of join (here: `inner`), `on` represents the `USING` clause whereas `left_on` and `right_on` stand for the SQL `ON` condition.
 
 In SQL usually an optimizer defines based in rules or statistics the execution plan (the order in which the tables are accessed, combined and filtered). I'm not sure if Pandas follows a similar approache. To be safe, I assume the order and early column dropping might matter for performance and memory management.
 
@@ -492,7 +490,7 @@ df_inventory_list.columns = ['set_num', 'set_name', 'theme_id', 'num_parts', 'pa
 
 Lots of code here. So we better check if our Pandas code matches the results of our SQL code.
 
-Select the inventory list for our example, write it to a dataframe (`df_test_from_sql`) and compare the results.
+Select the inventory list for our example, write it to a DataFrame (`df_test_from_sql`) and compare the results.
 ```sql
 df_test_from_sql <<
 SELECT il.* 
@@ -581,7 +579,7 @@ SELECT *
 
 
 
-We need to watchout for the brackets when combining filters in Dataframes.
+We need to watchout for the brackets when combining filters in DataFrames.
 
 
 ```python
@@ -699,7 +697,7 @@ SELECT s.set_num,
 All selected columns must either be aggregated by a function (`COUNT`, `SUM`) or defined as a group (`GROUP BY`).
 The result is a two column list with the group `set_num` and the aggregations `matches_per_set` and `total_num_part`.
 
-Now see how the counting is done with pandas.
+Now see how the counting is done with Pandas.
 
 
 ```python
@@ -915,6 +913,7 @@ What if we want to reverse the order of the path. Unfortunately `GROUP_CONCAT` i
 It's possible to add custom aggregation function in some databases. In SQLite we can compile [application defined function](https://www.sqlite.org/appfunc.html) or in Oracle we can define [customized aggregation function](https://docs.oracle.com/cd/B28359_01/appdev.111/b28425/aggr_functions.htm) even at runtime as types.
 
 Quiet some steps need to be taken to make the database use costumized aggregation efficently, so we can use them like regulare aggregation and windowing function. In Oracle for instance we have to define:
+
 1. initial values: 
     ```plsql
     total := 0; 
@@ -973,7 +972,7 @@ fire_engine_info
 
 
 
-On the on hand this is pretty need, since we can do what ever we want in a manually coded loop. On the other hand I doubt that it is very efficent when we have to deal with lots of data. But to be fair, Recursive `WITH` isn't that fast either in SQL.
+On the one hand this is pretty need, since we can do what ever we want in a manually coded loop. On the other hand I doubt that it is very efficent when we have to deal with lots of data. But to be fair, Recursive `WITH` isn't that fast either in SQL.
 
 Finaly we consider how to do customized aggregation. We could do it in the loop above or we can rather use the library's `transform` or `apply` functions.
 
@@ -1027,9 +1026,9 @@ There are alternatives to Pandas to build ml pipelines, such as [Dask](https://d
 
 ## Resources 
 To play with the examples:
-- [Res. 1] Kaggle notebook: https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas
-- [Res. 2] Docker container: https://github.com/joatom/blog-resources/tree/main/handful_bricks
+- *Res. 1* Kaggle notebook: https://www.kaggle.com/joatom/a-handful-of-bricks-from-sql-to-pandas
+- *Res. 2* Docker container: https://github.com/joatom/blog-resources/tree/main/handful_bricks
 
 ## References
-- [Ref. 1] Pandas SQL comparison: https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html
-- [Ref. 2] The Lego dataset: https://www.kaggle.com/rtatman/lego-database
+- *Ref. 1* Pandas SQL comparison: https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html
+- *Ref. 2* The Lego dataset: https://www.kaggle.com/rtatman/lego-database
