@@ -1,0 +1,4 @@
+The data in this folder was downloaded from the webpage of the Statistischen Bundesamtes and are licenced under "dl-de/by-2-0". The licence text is available at www.govdata.de/dl-de/by-2-0.
+
+- **sonderauswertung-sterbefaelle.xlsx:** Statistisches Bundesamt (Destatis), 2021 (erschienen am 30. März 2021), Sterbefälle - Fallzahlen nach Tagen, Wochen, Monaten, Altersgruppen, Geschlecht und Bundesländern für Deutschland 2016 - 2021, abgerufen 03.04.2021, https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.xlsx?__blob=publicationFile
+- **02-bundeslaende.xlsx:** Statistisches Bundesamt (Destatis), 2020 (erschienen am 2. September 2020), Bundesländer mit Hauptstädten nach Fläche, Bevölkerung und Bevölkerungsdichte am 31.12.2019, abgerufen am 03.04.2021, https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/02-bundeslaender.xlsx?__blob=publicationFile
